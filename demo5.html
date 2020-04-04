@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>命名视图</title>
+</head>
+
+<body>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+	<div id="app">
+		<h1>Named Views</h1>
+		<ul>
+			<li>
+				<router-link to="/">/</router-link>
+			</li>
+			<li>
+				<router-link to="/other">/other</router-link>
+			</li>
+		</ul>
+		<router-view class="view one"></router-view>
+		<router-view class="view two" name="a"></router-view>
+		<router-view class="view three" name="b"></router-view>
+	</div>
+
+	<script>
+		const Foo = {
+			template: '<div>foo</div>'
+		}
+		const Bar = {
+			template: '<div>bar</div>'
+		}
+		const Baz = {
+			template: '<div>baz</div>'
+		}
+
+		const router = new VueRouter({
+			routes: [{
+					path: '/',
+					// 一个路由可以定义多个命名组件
+					// 它将被渲染成具有相应名称的 router-view
+					components: {
+						default: Foo,
+						a: Bar,
+						b: Baz
+					}
+				},
+				{
+					path: '/other',
+					components: {
+						default: Baz,
+						a: Bar,
+						b: Foo
+					}
+				}
+			]
+		})
+
+		// new Vue({
+		// 	router,
+		// 	el: '#app'
+		// })
+		const app = new Vue({
+			router
+		}).$mount('#app')
+	</script>
+</body>
+
+</html>
